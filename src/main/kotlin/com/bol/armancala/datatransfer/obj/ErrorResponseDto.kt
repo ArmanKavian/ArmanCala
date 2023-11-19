@@ -1,3 +1,3 @@
 package com.bol.armancala.datatransfer.obj
 
-data class ErrorResponseDto(val message: String)
+data class ErrorResponseDto(val message: String?)

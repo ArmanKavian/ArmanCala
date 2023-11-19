@@ -18,13 +18,13 @@ class GameExceptionHandler {
     @ExceptionHandler(GameNotFoundException::class)
     fun handleGameNotFoundException(ex: GameNotFoundException): ResponseEntity<ErrorResponseDto> {
         logger.error("GameNotFoundException: ${ex.message}")
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ErrorResponseDto("Game not found"))
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ErrorResponseDto(ex.message))
     }
 
     @ExceptionHandler(InvalidMoveException::class)
     fun handleInvalidMoveException(ex: InvalidMoveException): ResponseEntity<ErrorResponseDto> {
         logger.error("GameNotFoundException: ${ex.message}")
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ErrorResponseDto("Invalid move"))
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ErrorResponseDto(ex.message))
     }
 
     @ExceptionHandler(RuntimeException::class)

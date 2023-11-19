@@ -17,7 +17,7 @@ class MakeMoveUseCaseImpl(private val gameRepository: GameRepository)
 
         validateMove(game, pitIndex)
 
-        val lastPitIndex = distributeStones(game, pitIndex)
+        val lastPitIndex = sowStones(game, pitIndex)
 
         if (isGameOver(game)) {
             determineWinner(game)
@@ -28,12 +28,12 @@ class MakeMoveUseCaseImpl(private val gameRepository: GameRepository)
         return gameRepository.save(game)
     }
 
-    private fun distributeStones(game: Game, pitIndex: Int): Int {
-        var stonesToDistribute = game.pits[pitIndex].stones
+    private fun sowStones(game: Game, pitIndex: Int): Int {
+        var stonesToSow = game.pits[pitIndex].stones
         game.pits[pitIndex].stones = 0
 
         var currentIndex = pitIndex
-        while (stonesToDistribute > 0) {
+        while (stonesToSow > 0) {
             currentIndex = (currentIndex + 1) % 14
 
             if (isInOpponentBigPit(game, currentIndex)) {
@@ -41,9 +41,10 @@ class MakeMoveUseCaseImpl(private val gameRepository: GameRepository)
             }
 
             game.pits[currentIndex].stones++
-            stonesToDistribute--
+            stonesToSow--
 
-            if (isLastStoneInEmptyPit(stonesToDistribute, game, currentIndex)) {
+            if (isLastStoneInEmptyPit(stonesToSow, game, currentIndex)
+                && !isBigPit(currentIndex)) {
                 captureStones(game, currentIndex)
             }
         }
@@ -64,7 +65,15 @@ class MakeMoveUseCaseImpl(private val gameRepository: GameRepository)
         if (pitIndex < 0 || pitIndex >= 14 || game.pits[pitIndex].stones == 0) {
             throw InvalidMoveException("Invalid move. Pit $pitIndex is empty.")
         }
+
+        if (!isOwnPit(game, pitIndex)) {
+            throw InvalidMoveException("Invalid move. Pit $pitIndex is not owned by player ${game.currentPlayer}.")
+        }
     }
+
+    private fun isOwnPit(game: Game, pitIndex: Int) =
+        (game.currentPlayer == 1 && pitIndex in 0..5) ||
+                (game.currentPlayer == 2 && pitIndex in 7..12)
 
     private fun captureStones(game: Game, pitIndex: Int) {
         val oppositeIndex = 12 - pitIndex
@@ -74,8 +83,10 @@ class MakeMoveUseCaseImpl(private val gameRepository: GameRepository)
         game.pits[6].stones += capturedStones
     }
 
+    private fun isBigPit(pitIndex: Int) = pitIndex == 6 || pitIndex == 13
+
     private fun switchPlayer(game: Game, lastPitIndex: Int) {
-        if (!shouldGetAnotherTurn(lastPitIndex, game.currentPlayer)) {
+        if (shouldGetAnotherTurn(lastPitIndex, game.currentPlayer)) {
             return
         }
         game.currentPlayer = if (game.currentPlayer == 1) 2 else 1
@@ -91,8 +102,9 @@ class MakeMoveUseCaseImpl(private val gameRepository: GameRepository)
     }
 
     private fun determineWinner(game: Game) {
-        val player1Stones = game.pits.subList(0, 6).sumOf { it.stones }
-        val player2Stones = game.pits.subList(7, 13).sumOf { it.stones }
+        //The remaining stones will be counted as points
+        val player1Stones = game.pits.subList(0, 7).sumOf { it.stones }
+        val player2Stones = game.pits.subList(7, 14).sumOf { it.stones }
 
         game.winner = when {
             player1Stones > player2Stones -> 1
