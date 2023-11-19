@@ -3,7 +3,6 @@ package com.bol.armancala.usecase.impl
 import com.bol.armancala.exception.GameNotFoundException
 import com.bol.armancala.model.Game
 import com.bol.armancala.repository.GameRepository
-import com.bol.armancala.usecase.impl.GetGameUseCaseImpl
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
