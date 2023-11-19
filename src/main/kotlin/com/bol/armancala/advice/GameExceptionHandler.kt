@@ -2,6 +2,7 @@ package com.bol.armancala.advice
 
 import com.bol.armancala.datatransfer.obj.ErrorResponseDto
 import com.bol.armancala.exception.GameNotFoundException
+import com.bol.armancala.exception.InvalidMoveException
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -18,6 +19,12 @@ class GameExceptionHandler {
     fun handleGameNotFoundException(ex: GameNotFoundException): ResponseEntity<ErrorResponseDto> {
         logger.error("GameNotFoundException: ${ex.message}")
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ErrorResponseDto("Game not found"))
+    }
+
+    @ExceptionHandler(InvalidMoveException::class)
+    fun handleInvalidMoveException(ex: InvalidMoveException): ResponseEntity<ErrorResponseDto> {
+        logger.error("GameNotFoundException: ${ex.message}")
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ErrorResponseDto("Invalid move"))
     }
 
     @ExceptionHandler(RuntimeException::class)

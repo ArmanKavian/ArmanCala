@@ -13,10 +13,18 @@ data class Game(
     @JsonManagedReference
     var pits: List<Pit> = emptyList(),
 
-    var currentPlayer: Int = 1
+    var currentPlayer: Int = 1,
+
+    var winner: Int? = null
 ) {
     init {
         pits = List(14) { Pit(game = this) }
+
+        pits.forEachIndexed { index, pit ->
+            if (index != 6 && index != 13) {
+                pit.stones = 4
+            }
+        }
     }
 
     override fun equals(other: Any?): Boolean {
