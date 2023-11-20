@@ -1,12 +1,18 @@
 <div *ngIf="game" class="game-board">
+  <div class="game-info">
+    <div>Game ID: {{ game.id }}</div>
+    <div>Turn: Player {{ game.currentPlayer }}</div>
+  </div>
+  <div class="player1-label">Player 1</div>
   <div class="player-pits upper-row">
     <!-- Upper row: Pits 0 to 6 -->
     <div class="pit-container" *ngFor="let pit of game.pits.slice(0, 7); let i = index">
       <div class="pit-index">{{ i }}</div>
       <div class="pit"
-           [ngClass]="{'special-pit': i === 6 || i + 7 === 13, 'unclickable': pit === 0 || i === 6 || i + 7 === 13}"
-           (click)="i !== 6 && pit > 0 && onPitClick(i)">
-        <div class="stones">{{ pit }}</div>
+           [ngClass]="{'special-pit': i === 6 || i + 7 === 13,
+           'unclickable': game.currentPlayer !== 1 || pit === 0 || i === 6 || i + 7 === 13}"
+           (click)="game.currentPlayer === 1 && i !== 6 && pit > 0 && onPitClick(i)">
+        <div class="stone" *ngFor="let stone of getStonesArray(pit)"></div>
       </div>
     </div>
   </div>
@@ -15,11 +21,13 @@
     <!-- Lower row: Pits 7 to 13 -->
     <div class="pit-container" *ngFor="let pit of game.pits.slice(7, 14); let i = index">
       <div class="pit"
-           [ngClass]="{'special-pit': i === 6 || i + 7 === 13, 'unclickable': pit === 0 || i === 6 || i + 7 === 13}"
-           (click)="i + 7 !== 13 && pit > 0 && onPitClick(i + 7)">
-        <div class="stones">{{ pit }}</div>
+           [ngClass]="{'special-pit': i === 6 || i + 7 === 13,
+           'unclickable': game.currentPlayer !== 2 || pit === 0 || i === 6 || i + 7 === 13}"
+           (click)="game.currentPlayer === 2 && i + 7 !== 13 && pit > 0 && onPitClick(i + 7)">
+        <div class="stone" *ngFor="let stone of getStonesArray(pit)"></div>
       </div>
       <div class="pit-index">{{ i + 7 }}</div>
     </div>
   </div>
+  <div class="player2-label">Player 2</div>
 </div>

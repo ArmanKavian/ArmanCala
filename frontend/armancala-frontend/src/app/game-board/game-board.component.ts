@@ -17,6 +17,10 @@ export class GameBoardComponent implements OnChanges {
     this.game = new Game()
   }
 
+  getStonesArray(pitCount: number): any[] {
+    return new Array(pitCount);
+  }
+
   ngOnChanges(changes: SimpleChanges): void {
     // @ts-ignore
     if (changes.game) {

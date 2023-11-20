@@ -3,11 +3,42 @@
   flex-direction: column;
   align-items: center;
   font-family: 'Arial', sans-serif;
+
+  .player1-label {
+    font-size: 2.5em;
+    font-weight: bold;
+    color: red;
+    margin: 10px 0;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    text-align: center;
+  }
+
+  .player2-label {
+    font-size: 2.5em;
+    font-weight: bold;
+    color: blue;
+    margin: 10px 0;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    text-align: center;
+  }
+
+  .game-info {
+    margin: 10px 0;
+    font-size: 1.2em;
+    color: #333;
+    text-align: center;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+
+    div {
+      margin: 5px 0;
+    }
+  }
 }
 
 .spacer {
-  width: 210px; // Same width as a regular pit
-  margin: 0 10px; // Same margin as a regular pit
+  width: 210px;
+  margin: 0 10px;
 }
 
 .player-pits {
@@ -15,10 +46,8 @@
   justify-content: center;
 
   &.upper-row {
-    flex-direction: row-reverse; // Reverses the order of the pits for the upper row
+    flex-direction: row-reverse;
   }
-
-
 
   .pit-container {
     display: flex;
@@ -42,11 +71,26 @@
       height: 60px;
       cursor: pointer;
       transition: transform 0.3s ease;
-      position: relative; // Added for the overlay
+      position: relative;
+
+      .stone {
+        width: 20px; // Size of the stone
+        height: 20px;
+        border-radius: 50%; // Make it circular
+        background-color: #757575; // Stone color
+        margin: 2px; // Space between stones
+        display: inline-block;
+      }
 
       &.unclickable {
         cursor: not-allowed;
         opacity: 0.6;
+      }
+
+      &.special-pit {
+        background-color: darkgoldenrod;
+        color: white;
+        border: 2px solid gold;
       }
 
       &:hover {
