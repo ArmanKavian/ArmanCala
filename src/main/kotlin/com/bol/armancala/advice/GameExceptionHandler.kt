@@ -23,7 +23,7 @@ class GameExceptionHandler {
 
     @ExceptionHandler(InvalidMoveException::class)
     fun handleInvalidMoveException(ex: InvalidMoveException): ResponseEntity<ErrorResponseDto> {
-        logger.error("GameNotFoundException: ${ex.message}")
+        logger.error("InvalidMoveException: ${ex.message}")
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ErrorResponseDto(ex.message))
     }
 

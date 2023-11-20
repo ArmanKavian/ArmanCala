@@ -1,1 +1,25 @@
-<p>game-board works!</p>
+<div *ngIf="game" class="game-board">
+  <div class="player-pits upper-row">
+    <!-- Upper row: Pits 0 to 6 -->
+    <div class="pit-container" *ngFor="let pit of game.pits.slice(0, 7); let i = index">
+      <div class="pit-index">{{ i }}</div>
+      <div class="pit"
+           [ngClass]="{'special-pit': i === 6 || i + 7 === 13, 'unclickable': pit === 0 || i === 6 || i + 7 === 13}"
+           (click)="i !== 6 && pit > 0 && onPitClick(i)">
+        <div class="stones">{{ pit }}</div>
+      </div>
+    </div>
+  </div>
+  <div class="player-pits lower-row">
+    <div class="spacer"></div> <!-- Spacer for alignment -->
+    <!-- Lower row: Pits 7 to 13 -->
+    <div class="pit-container" *ngFor="let pit of game.pits.slice(7, 14); let i = index">
+      <div class="pit"
+           [ngClass]="{'special-pit': i === 6 || i + 7 === 13, 'unclickable': pit === 0 || i === 6 || i + 7 === 13}"
+           (click)="i + 7 !== 13 && pit > 0 && onPitClick(i + 7)">
+        <div class="stones">{{ pit }}</div>
+      </div>
+      <div class="pit-index">{{ i + 7 }}</div>
+    </div>
+  </div>
+</div>

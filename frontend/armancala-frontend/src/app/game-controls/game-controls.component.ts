@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -9,5 +9,16 @@ import { CommonModule } from '@angular/common';
   styleUrl: './game-controls.component.scss'
 })
 export class GameControlsComponent {
+  @Output() newGame = new EventEmitter<void>();
+  @Output() makeMove = new EventEmitter<number>();
 
+  constructor() {}
+
+  startNewGame() {
+    this.newGame.emit();
+  }
+
+  // move(pitIndex: number) {
+  //   this.makeMove.emit(pitIndex);
+  // }
 }

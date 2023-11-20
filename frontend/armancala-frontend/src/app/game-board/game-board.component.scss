@@ -1,0 +1,67 @@
+.game-board {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: 'Arial', sans-serif;
+}
+
+.spacer {
+  width: 210px; // Same width as a regular pit
+  margin: 0 10px; // Same margin as a regular pit
+}
+
+.player-pits {
+  display: flex;
+  justify-content: center;
+
+  &.upper-row {
+    flex-direction: row-reverse; // Reverses the order of the pits for the upper row
+  }
+
+
+
+  .pit-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 10px;
+
+    .pit-index {
+      margin: 5px;
+    }
+
+    .pit {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid #ddd;
+      margin: 5px;
+      padding: 10px;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+      position: relative; // Added for the overlay
+
+      &.unclickable {
+        cursor: not-allowed;
+        opacity: 0.6;
+      }
+
+      &:hover {
+        transform: scale(1.1);
+      }
+    }
+  }
+
+  &.upper-row .pit {
+    background-color: red;
+    color: white;
+  }
+
+  &.lower-row .pit {
+    background-color: blue;
+    color: white;
+  }
+}

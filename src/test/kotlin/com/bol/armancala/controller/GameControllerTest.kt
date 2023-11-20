@@ -1,5 +1,7 @@
 package com.bol.armancala.controller
 
+import com.bol.armancala.createGameDto
+import com.bol.armancala.datatransfer.adapter.DataTransferAdapter
 import com.bol.armancala.model.Game
 import com.bol.armancala.usecase.CreateGameUseCase
 import com.bol.armancala.usecase.GetGameUseCase
@@ -18,6 +20,9 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
 
 class GameControllerTest {
+
+    @MockK
+    private lateinit var dataTransferAdapter: DataTransferAdapter
 
     @MockK
     private lateinit var createGameUseCase: CreateGameUseCase
@@ -43,7 +48,9 @@ class GameControllerTest {
     fun `createGame should return a new game`() {
         // Arrange
         val expectedGame = Game()
+        val expectedGameDto = createGameDto(expectedGame)
         every { createGameUseCase.createGame() } returns expectedGame
+        every { dataTransferAdapter.toGameDto(any()) } returns expectedGameDto
 
         // Act & Assert
         mockMvc.perform(post("/api/games"))
@@ -58,7 +65,9 @@ class GameControllerTest {
         val gameId = 1L
         val pitIndex = 3
         val expectedGame = Game()
+        val expectedGameDto = createGameDto(expectedGame)
         every { makeMoveUseCase.makeMove(gameId, pitIndex) } returns expectedGame
+        every { dataTransferAdapter.toGameDto(any()) } returns expectedGameDto
 
         // Act & Assert
         mockMvc.perform(post("/api/games/{gameId}/move/{pitIndex}", gameId, pitIndex))
@@ -72,7 +81,9 @@ class GameControllerTest {
         // Arrange
         val gameId = 1L
         val expectedGame = Game()
+        val expectedGameDto = createGameDto(expectedGame)
         every { getGameUseCase.getGame(gameId) } returns expectedGame
+        every { dataTransferAdapter.toGameDto(any()) } returns expectedGameDto
 
         // Act & Assert
         mockMvc.perform(get("/api/games/{gameId}", gameId))

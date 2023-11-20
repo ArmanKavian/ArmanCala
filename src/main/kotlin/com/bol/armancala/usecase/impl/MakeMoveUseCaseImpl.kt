@@ -1,19 +1,24 @@
 package com.bol.armancala.usecase.impl
 
+import com.bol.armancala.advice.GameExceptionHandler
 import com.bol.armancala.exception.GameNotFoundException
 import com.bol.armancala.exception.InvalidMoveException
 import com.bol.armancala.model.Game
 import com.bol.armancala.repository.GameRepository
 import com.bol.armancala.usecase.MakeMoveUseCase
+import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
 class MakeMoveUseCaseImpl(private val gameRepository: GameRepository)
     : MakeMoveUseCase {
+    private val logger = LoggerFactory.getLogger(GameExceptionHandler::class.java)
+
     @Transactional
     override fun makeMove(gameId: Long, pitIndex: Int): Game {
         val game = gameRepository.findById(gameId).orElseThrow { GameNotFoundException(gameId) }
+        val currentPlayer = game.currentPlayer
 
         validateMove(game, pitIndex)
 
@@ -21,11 +26,14 @@ class MakeMoveUseCaseImpl(private val gameRepository: GameRepository)
 
         if (isGameOver(game)) {
             determineWinner(game)
+            logger.info("Game ${game.id} is over and the winner is player ${game.winner}")
         }
 
         switchPlayer(game, lastPitIndex)
 
-        return gameRepository.save(game)
+        val savedGame = gameRepository.save(game)
+        logger.info("Move for player $currentPlayer with pit $pitIndex applied on game ${game.id}")
+        return savedGame
     }
 
     private fun sowStones(game: Game, pitIndex: Int): Int {

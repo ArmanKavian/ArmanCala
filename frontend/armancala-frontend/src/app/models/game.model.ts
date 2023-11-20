@@ -7,8 +7,10 @@ export class Game {
 
   constructor() {
     this.id = 0;
-    this.pits = new Array(14).fill(4); // Assuming 6 pits per player plus 2 scoring pits
-    this.currentPlayer = 1; // Player 1 starts
+    this.pits = new Array(14).fill(4);
+    this.pits[6] = 0;
+    this.pits[13] = 0
+    this.currentPlayer = 1;
     this.status = GameStatus.IN_PROGRESS;
     this.winner = null;
   }

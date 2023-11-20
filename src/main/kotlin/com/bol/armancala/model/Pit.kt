@@ -13,6 +13,8 @@ data class Pit(
     @JsonBackReference
     val game: Game? = null,
 
+    var index : Int? = null,
+
     var stones: Int = 4
 ) {
     override fun equals(other: Any?): Boolean {
@@ -24,5 +26,9 @@ data class Pit(
 
     override fun hashCode(): Int {
         return id.hashCode()
+    }
+
+    override fun toString(): String {
+        return "Pit(id=$id, stones=$stones)"
     }
 }

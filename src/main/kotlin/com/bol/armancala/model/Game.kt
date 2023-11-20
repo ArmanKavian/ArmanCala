@@ -27,4 +27,8 @@ data class Game(
     override fun hashCode(): Int {
         return id.hashCode()
     }
+
+    override fun toString(): String {
+        return "Game(id=$id, currentPlayer=$currentPlayer, winner=$winner)"
+    }
 }
