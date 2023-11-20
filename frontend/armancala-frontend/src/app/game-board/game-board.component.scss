@@ -1,3 +1,7 @@
+$deepRed: #a83232;
+$vibrantBlue: #3275a8;
+$pitShadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+
 .game-board {
   display: flex;
   flex-direction: column;
@@ -6,8 +10,9 @@
 
   .player1-label {
     font-size: 2.5em;
+    font-family: 'Kaushan Script', fantasy;
     font-weight: bold;
-    color: red;
+    color: $deepRed;
     margin: 10px 0;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
     text-align: center;
@@ -15,8 +20,9 @@
 
   .player2-label {
     font-size: 2.5em;
+    font-family: 'Kaushan Script', fantasy;
     font-weight: bold;
-    color: blue;
+    color: $vibrantBlue;
     margin: 10px 0;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
     text-align: center;
@@ -25,6 +31,7 @@
   .game-info {
     margin: 10px 0;
     font-size: 1.2em;
+    font-family: 'Kaushan Script', monospace;
     color: #333;
     text-align: center;
     font-weight: bold;
@@ -71,15 +78,32 @@
       width: 60px;
       height: 60px;
       cursor: pointer;
+      box-shadow: $pitShadow;
       transition: transform 0.3s ease;
       position: relative;
 
       .stone {
-        width: 10px; // Adjust based on desired stone size
+        width: 10px;
         height: 10px;
         border-radius: 50%;
-        background-color: #757575;
-        margin: 1px;
+        background-color: whitesmoke;
+        margin: 2px;
+        display: inline-block;
+        position: relative;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+
+        &:after {
+          content: '';
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          width: 14px; // Slightly larger than the stone itself
+          height: 14px;
+          border-radius: 50%;
+          border: 2px solid #ddd; // Border color
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); // Optional: additional shadow for the circle
+        }
       }
 
       &.unclickable {
@@ -94,18 +118,18 @@
       }
 
       &:hover {
-        transform: scale(1.1);
+        transform: scale(1.05);
       }
     }
   }
 
   &.upper-row .pit {
-    background-color: red;
+    background-color: $deepRed;
     color: white;
   }
 
   &.lower-row .pit {
-    background-color: blue;
+    background-color: $vibrantBlue;
     color: white;
   }
 }

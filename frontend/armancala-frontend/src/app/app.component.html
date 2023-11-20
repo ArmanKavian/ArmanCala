@@ -1,5 +1,7 @@
 <div class="app-container">
   <h1>ArmanCala</h1>
-  <app-game-controls (newGame)="startNewGame()" (makeMove)="makeMove($event)"></app-game-controls>
   <app-game-board [game]="game" (pitClicked)="handlePitClick($event)"></app-game-board>
+  <footer>
+    <app-game-controls (newGame)="startNewGame()" (makeMove)="makeMove($event)"></app-game-controls>
+  </footer>
 </div>
