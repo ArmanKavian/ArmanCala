@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Game } from './models/game.model'; // You need to define this model
+import { Game } from './models/game.model';
+import {Recommendation} from "./models/recommendation.model"; // You need to define this model
 
 @Injectable({
   providedIn: 'root'
@@ -27,5 +28,9 @@ export class GameService {
 
   makeMove(gameId: number, pitIndex: number): Observable<Game> {
     return this.http.post<Game>(`${this.apiUrl}/${gameId}/move/${pitIndex}`, {});
+  }
+
+  recommendMove(gameId: number): Observable<Recommendation> {
+    return this.http.get<Recommendation>(`${this.apiUrl}/${gameId}/recommend`);
   }
 }

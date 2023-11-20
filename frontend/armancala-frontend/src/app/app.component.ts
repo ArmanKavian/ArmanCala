@@ -6,6 +6,7 @@ import { GameService } from './game.service';
 import {GameControlsComponent} from "./game-controls/game-controls.component";
 import {GameBoardComponent} from "./game-board/game-board.component";
 import { HttpClientModule } from '@angular/common/http';
+import {Recommendation} from "./models/recommendation.model";
 
 @Component({
   selector: 'app-root',
@@ -41,5 +42,22 @@ export class AppComponent {
 
   handlePitClick(pitIndex: number): void {
     this.makeMove(pitIndex)
+  }
+
+  onRecommendMove() {
+    if (this.game) {
+      this.gameService.recommendMove(this.game.id).subscribe(
+        (recommendation: Recommendation) => {
+          this.showRecommendationDialog(recommendation);
+        },
+        error => {
+          console.error('Error fetching recommendation:', error);
+        }
+      );
+    }
+  }
+
+  private showRecommendationDialog(recommendation: Recommendation) {
+    console.log("MOVE:" + recommendation.move)
   }
 }

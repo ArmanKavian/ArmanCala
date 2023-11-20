@@ -2,10 +2,12 @@ package com.bol.armancala.controller
 
 import com.bol.armancala.createGameDto
 import com.bol.armancala.datatransfer.adapter.DataTransferAdapter
+import com.bol.armancala.datatransfer.obj.MoveRecommendationDto
 import com.bol.armancala.model.Game
 import com.bol.armancala.usecase.CreateGameUseCase
 import com.bol.armancala.usecase.GetGameUseCase
 import com.bol.armancala.usecase.MakeMoveUseCase
+import com.bol.armancala.usecase.RecommendMoveUseCase
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.InjectMockKs
@@ -32,6 +34,9 @@ class GameControllerTest {
 
     @MockK
     private lateinit var getGameUseCase: GetGameUseCase
+
+    @MockK
+    private lateinit var recommendMoveUseCase: RecommendMoveUseCase
 
     @InjectMockKs
     private lateinit var gameController: GameController
@@ -90,5 +95,23 @@ class GameControllerTest {
             .andExpect(status().isOk)
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
             .andExpect(jsonPath("$.id").value(expectedGame.id))
+    }
+
+    @Test
+    fun `recommend should return a valid response`() {
+        // Arrange
+        val gameId = 1L
+        val expectedGame = Game(id = gameId)
+        val move = 3
+        val expectedGameDto = createGameDto(expectedGame)
+        every { recommendMoveUseCase.recommend(gameId) } returns move
+        every { dataTransferAdapter.toMoveRecommendationDto(any(), any()) } returns MoveRecommendationDto(gameId, move)
+
+        // Act & Assert
+        mockMvc.perform(get("/api/games/{gameId}/recommend", gameId))
+            .andExpect(status().isOk)
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(jsonPath("$.gameId").value(expectedGame.id))
+            .andExpect(jsonPath("$.move").value(move))
     }
 }

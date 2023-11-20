@@ -15,8 +15,4 @@ export class GameControlsComponent {
   startNewGame() {
     this.newGame.emit();
   }
-
-  // move(pitIndex: number) {
-  //   this.makeMove.emit(pitIndex);
-  // }
 }
