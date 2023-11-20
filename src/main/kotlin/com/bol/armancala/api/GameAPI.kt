@@ -1,7 +1,6 @@
 package com.bol.armancala.api
 
 import com.bol.armancala.datatransfer.obj.GameDto
-import com.bol.armancala.model.Game
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable

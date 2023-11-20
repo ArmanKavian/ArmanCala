@@ -12,8 +12,6 @@ export class GameControlsComponent {
   @Output() newGame = new EventEmitter<void>();
   @Output() makeMove = new EventEmitter<number>();
 
-  constructor() {}
-
   startNewGame() {
     this.newGame.emit();
   }

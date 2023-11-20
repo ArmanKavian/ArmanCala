@@ -20,15 +20,11 @@ export class GameBoardComponent implements OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     // @ts-ignore
     if (changes.game) {
-      this.updateBoard();
+
     }
   }
 
   onPitClick(pitIndex: number): void {
     this.pitClicked.emit(pitIndex);
-  }
-
-  updateBoard() {
-
   }
 }
