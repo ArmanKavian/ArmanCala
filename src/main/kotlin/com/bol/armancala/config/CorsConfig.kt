@@ -13,11 +13,21 @@ class CorsConfig {
         val source = UrlBasedCorsConfigurationSource()
         val config = CorsConfiguration()
 
-        config.addAllowedOrigin("*")
-        config.addAllowedHeader("*")
-        config.addAllowedMethod("*")
-        source.registerCorsConfiguration("/**", config)
+        // Allow only specific origins
+        config.addAllowedOrigin("http://localhost:4200")
+        config.allowCredentials = true
 
+        // Allow specific headers
+        config.addAllowedHeader("Origin")
+        config.addAllowedHeader("Authorization")
+        config.addAllowedHeader("Content-Type")
+        config.addAllowedHeader("Accept")
+
+        // Allow specific HTTP methods
+        config.addAllowedMethod("GET")
+        config.addAllowedMethod("POST")
+
+        source.registerCorsConfiguration("/**", config)
         return CorsFilter(source)
     }
 }
