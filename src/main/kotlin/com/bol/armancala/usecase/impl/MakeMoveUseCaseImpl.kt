@@ -93,7 +93,13 @@ class MakeMoveUseCaseImpl(private val gameRepository: GameRepository)
         val capturedStones = game.pits[oppositeIndex].stones + 1
 
         game.pits[oppositeIndex].stones = 0
-        game.pits[6].stones += capturedStones
+
+        val currentPlayerBigPit = if (game.currentPlayer == 1) {
+            6
+        } else { //Player 2
+            13
+        }
+        game.pits[currentPlayerBigPit].stones += capturedStones
     }
 
     private fun isBigPit(pitIndex: Int) = pitIndex == 6 || pitIndex == 13

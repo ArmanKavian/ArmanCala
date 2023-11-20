@@ -17,12 +17,60 @@ class RecommendMoveUseCaseImpl(private val gameRepository: GameRepository) :
 
         val validMoves = findValidMoves(game)
 
-        val move = if (validMoves.isNotEmpty()) {
-            validMoves.random()
-        } else {
-            -1
+        return findBestMove(game, validMoves)
+    }
+
+    private fun findBestMove(game: Game, validMoves: List<Int>): Int {
+        var bestMove = -1
+        var maxCapture = 0
+        var maxStonesForExtraTurn = 0
+
+        validMoves.forEach { move ->
+            val potentialCapture = calculatePotentialCapture(game, move)
+            val stonesForExtraTurn = calculateStonesForExtraTurn(game, move)
+
+            if (potentialCapture > maxCapture ||
+                (potentialCapture == maxCapture && stonesForExtraTurn > maxStonesForExtraTurn)) {
+                bestMove = move
+                maxCapture = potentialCapture
+                maxStonesForExtraTurn = stonesForExtraTurn
+            }
         }
-        return move
+
+        return bestMove
+    }
+
+    private fun calculatePotentialCapture(game: Game, move: Int): Int {
+        val stones = game.pits[move].stones
+        var currentIndex = move
+        var capturedStones = 0
+
+        for (i in 1..stones) {
+            currentIndex = (currentIndex + 1) % game.pits.size
+
+            if (i == stones && game.pits[currentIndex].stones == 0) {
+                //Two pits are big pits
+                val oppositePitIndex = game.pits.size - 2 - currentIndex
+
+                val isOnPlayersSide = (game.currentPlayer == 1 && currentIndex < 6) ||
+                        (game.currentPlayer == 2 && currentIndex in 7..12)
+
+                if (isOnPlayersSide) {
+                    capturedStones = game.pits[oppositePitIndex].stones + 1
+                }
+            }
+        }
+        return capturedStones
+    }
+
+    private fun calculateStonesForExtraTurn(game: Game, move: Int): Int {
+        val stones = game.pits[move].stones
+        val totalPits = game.pits.size
+        val endPitIndex = (move + stones) % totalPits
+
+        val playerBigPitIndex = if (game.currentPlayer == 1) 6 else 13
+
+        return if (endPitIndex == playerBigPitIndex) 1 else 0
     }
 
     private fun findValidMoves(game: Game): List<Int> {
