@@ -1,7 +1,7 @@
 <div class="app-container">
   <h1>ArmanCala</h1>
   <app-game-board [game]="game" (pitClicked)="handlePitClick($event)"></app-game-board>
-  <button (click)="onRecommendMove()">Get Move Recommendation</button>
+  <button class="recommendation" (click)="onRecommendMove()">Get Move Recommendation</button>
   <footer>
     <app-game-controls (newGame)="startNewGame()" (makeMove)="makeMove($event)"></app-game-controls>
   </footer>

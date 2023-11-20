@@ -7,6 +7,8 @@ import {GameControlsComponent} from "./game-controls/game-controls.component";
 import {GameBoardComponent} from "./game-board/game-board.component";
 import { HttpClientModule } from '@angular/common/http';
 import {Recommendation} from "./models/recommendation.model";
+import { MatDialog } from '@angular/material/dialog';
+import { RecommendationDialogComponent } from './recommendation-dialog/recommendation-dialog.component';
 
 @Component({
   selector: 'app-root',
@@ -20,7 +22,7 @@ export class AppComponent {
 
   game: Game;
 
-  constructor(private gameService: GameService) {
+  constructor(private gameService: GameService, public dialog: MatDialog) {
     this.game = new Game()
   }
 
@@ -59,5 +61,9 @@ export class AppComponent {
 
   private showRecommendationDialog(recommendation: Recommendation) {
     console.log("MOVE:" + recommendation.move)
+    this.dialog.open(RecommendationDialogComponent, {
+      width: '250px',
+      data: { move: recommendation.move }
+    });
   }
 }
