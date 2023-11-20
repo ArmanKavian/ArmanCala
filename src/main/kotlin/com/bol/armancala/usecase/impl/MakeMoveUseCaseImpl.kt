@@ -9,6 +9,7 @@ import com.bol.armancala.usecase.MakeMoveUseCase
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.util.*
 
 @Service
 class MakeMoveUseCaseImpl(private val gameRepository: GameRepository)
@@ -70,6 +71,10 @@ class MakeMoveUseCaseImpl(private val gameRepository: GameRepository)
     ) = stonesToDistribute == 0 && game.pits[currentIndex].stones == 1
 
     private fun validateMove(game: Game, pitIndex: Int) {
+        if (!Objects.isNull(game.winner)) {
+            throw InvalidMoveException("Invalid move. Game is already over.")
+        }
+
         if (pitIndex < 0 || pitIndex >= 14 || game.pits[pitIndex].stones == 0) {
             throw InvalidMoveException("Invalid move. Pit $pitIndex is empty.")
         }

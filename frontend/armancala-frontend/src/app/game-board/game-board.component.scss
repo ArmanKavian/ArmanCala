@@ -61,6 +61,7 @@
 
     .pit {
       display: flex;
+      flex-wrap: wrap;
       align-items: center;
       justify-content: center;
       border: 2px solid #ddd;
@@ -74,12 +75,11 @@
       position: relative;
 
       .stone {
-        width: 20px; // Size of the stone
-        height: 20px;
-        border-radius: 50%; // Make it circular
-        background-color: #757575; // Stone color
-        margin: 2px; // Space between stones
-        display: inline-block;
+        width: 10px; // Adjust based on desired stone size
+        height: 10px;
+        border-radius: 50%;
+        background-color: #757575;
+        margin: 1px;
       }
 
       &.unclickable {

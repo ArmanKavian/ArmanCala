@@ -2,6 +2,7 @@
   <div class="game-info">
     <div>Game ID: {{ game.id }}</div>
     <div>Turn: Player {{ game.currentPlayer }}</div>
+    <div>Winner: Player {{ game.winner == null ? "UNKNOWN" : game.winner}}</div>
   </div>
   <div class="player1-label">Player 1</div>
   <div class="player-pits upper-row">
