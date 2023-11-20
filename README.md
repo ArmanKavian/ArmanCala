@@ -26,7 +26,7 @@ The backend will run on http://localhost:8080.
 ## Frontend Setup
 
  ```bash
-   cd frontend
+   cd frontend/armancala-frontend
    npm install
    ng serve
    ```
@@ -35,6 +35,8 @@ The frontend will run on http://localhost:4200.
 
 ## Usage
 Access the application by opening a web browser and navigating to http://localhost:4200.
+
+Access the database console on http://localhost:8080/h2-console using the configuration in application.yaml.
 
 Create a new game by clicking the "New Game" button.
 
