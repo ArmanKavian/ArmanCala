@@ -1,7 +1,7 @@
 <div *ngIf="game" class="game-board">
   <div class="game-info">
     <div>Game ID: {{ game.id }}</div>
-    <div>Turn: Player {{ game.currentPlayer }}</div>
+    <div>Turn: {{ game.winner == null ? "Player " + game.currentPlayer : "Game is over!"}}</div>
     <div>Winner: Player {{ game.winner == null ? "UNKNOWN" : game.winner}}</div>
   </div>
   <div class="player1-label">Player 1</div>
