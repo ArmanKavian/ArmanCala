@@ -23,7 +23,7 @@ open class RecommendMoveUseCaseImplTest {
     }
 
     @Test
-    fun `recommend should return a pit index`() {
+    fun `recommend should return a pit index or -1`() {
         // Arrange
         val gameId = 1L
         val game = Game()
